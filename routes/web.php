@@ -17,6 +17,22 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::get('/register',[AuthController::class,'loadRegister']);
+Route::post('/register',[AuthController::class,'studentRegister'])->name('studentRegister');
+
+Route::get('/login',function(){
+    return redirect('/');
+});
+
+Route::get('/',[AuthController::class,'loadLogin']);
+Route::post('/login',[AuthController::class,'userLogin'])->name('userLogin');
+
+Route::get('/logout',[AuthController::class,'logout']);
+
+Route::get('/forget-password',[AuthController::class,'forgetPasswordLoad']);
+Route::post('/forget-password',[AuthController::class,'forgetPassword'])->name('forgetPassword');
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -26,5 +42,18 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+<<<<<<< HEAD
 Route::get('/register',[AuthController:: class,'loadRegister']);
 Route::post('/register',[AuthController::class,'studentRegister'])->name('studentRegister');
+=======
+
+Route::group(['middleware'=> ['web','checkAdmin']], function () {
+    Route::get('/admin/dashboard',[AuthController::class,'adminDashboard']);
+});
+
+Route::group(['middleware'=> ['web','checkStudent']], function () {
+    Route::get('/dashboard',[AuthController::class,'loadDashboard']);
+});
+
+
+>>>>>>> edbca632033e9d7d91ba74c973672b216714ae15

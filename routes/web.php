@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,3 +26,5 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+Route::get('/register',[AuthController:: class,'loadRegister']);
+Route::post('/register',[AuthController::class,'studentRegister'])->name('studentRegister');

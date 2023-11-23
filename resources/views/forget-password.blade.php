@@ -19,7 +19,7 @@
         <p style="color:green;">{{ Session::get(('Success')) }}</p>
     @endif
 
-    <form action="{{ route('userLogin') }}" method="POST">
+    <form action="{{ route('forgetPassword') }}" method="POST">
         @csrf
         <input type="email" name="email" placeholder="Enter Email">
         <br><br>

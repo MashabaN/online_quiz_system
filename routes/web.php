@@ -33,7 +33,7 @@ Route::get('/logout',[AuthController::class,'logout']);
 Route::get('/forget-password',[AuthController::class,'resetPasswordLoad']);
 Route::post('/forget-password',[AuthController::class,'resetPassword'])->name('resetPassword');
 
-Route::get('/rest-password',[AuthController::class,'forgetPasswordLoad']);
+Route::get('/reset-password',[AuthController::class,'forgetPasswordLoad']);
 Route::post('/reset-password',[AuthController::class,'forgetPassword'])->name('forgetPassword');
 Route::middleware([
     'auth:sanctum',
@@ -51,6 +51,12 @@ Route::post('/register',[AuthController::class,'studentRegister'])->name('studen
 
 Route::group(['middleware'=> ['web','checkAdmin']], function () {
     Route::get('/admin/dashboard',[AuthController::class,'adminDashboard']);
+
+/guys work on subjects route /
+
+    //exam route
+    Route::get('/admin/exam',[adminController::class,'examDashboard']);
+    Route::post('/add-exam',[adminController::class,'addExam'])->name('addExam');
 });
 
 Route::group(['middleware'=> ['web','checkStudent']], function () {

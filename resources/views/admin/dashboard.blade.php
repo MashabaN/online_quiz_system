@@ -9,10 +9,41 @@
   Add Subject
 </button>
 
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Subject</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+
+
+  @if(count($subjects) > 0)
+
+      @foreach($subjects as $subject)
+         <tr>
+             <td> {{ $subject->id }}</td>
+             <td> {{ $subject->subject }}</td>
+             <td></td>
+             <td></td>
+         </tr>
+      @endforeach
+  @else
+  <tr>
+    <td colspan="4">Subjects Not Found!</td>
+  </tr>
+  @endif
+  </tbody>
+</table>
+
 <!-- Modal -->
 <div class="modal fade" id="addSubjectModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <form id="addSubject">
+        @csrf
       <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Add Subject</h5>
@@ -33,4 +64,29 @@
   </div>
 </div>
 
+<script>
+    $(document).ready(function(){
+
+        $("#addSubject").submit(function(e){
+            e.preventDefault();
+
+            var formData = $(this).serialize();
+
+            $.ajax({
+                url:"{{ route('addSubject') }}",
+                type:"POST",
+                data:formData,
+                success:function(data){
+                   if (data.success == true)
+                   {
+                       location.reload();
+                   } 
+                   else{
+                       alart(data.msg);
+                   }
+                }
+            });
+        });
+    });
+</script>
 @endsection

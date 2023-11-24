@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,6 +36,7 @@ Route::post('/forget-password',[AuthController::class,'resetPassword'])->name('r
 
 Route::get('/rest-password',[AuthController::class,'forgetPasswordLoad']);
 Route::post('/reset-password',[AuthController::class,'forgetPassword'])->name('forgetPassword');
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -45,12 +47,12 @@ Route::middleware([
     })->name('dashboard');
 });
 
-Route::get('/register',[AuthController:: class,'loadRegister']);
-Route::post('/register',[AuthController::class,'studentRegister'])->name('studentRegister');
-
 
 Route::group(['middleware'=> ['web','checkAdmin']], function () {
     Route::get('/admin/dashboard',[AuthController::class,'adminDashboard']);
+    // subjects route
+    Route::post('/add-subject',[AdminController::class,'addSubject'])->name('addSubject');
+
 });
 
 Route::group(['middleware'=> ['web','checkStudent']], function () {

@@ -50,19 +50,24 @@ Route::middleware([
 
 Route::group(['middleware'=> ['web','checkAdmin']], function () {
     Route::get('/admin/dashboard',[AuthController::class,'adminDashboard']);
-<<<<<<< HEAD
+    
+    // subjects route
+    Route::post('/add-subject',[AdminController::class,'addSubject'])->name('addSubject');
+    Route::post('/edit-subject',[AdminController::class,'editSubject'])->name('editSubject');
+    Route::post('/delete-subject',[AdminController::class,'deleteSubject'])->name('deleteSubject');
+});
 
-/guys work on subjects route /
+
+
 
     //exam route
     Route::get('/admin/exam',[adminController::class,'examDashboard']);
     Route::post('/add-exam',[adminController::class,'addExam'])->name('addExam');
-=======
-    // subjects route
-    Route::post('/add-subject',[AdminController::class,'addSubject'])->name('addSubject');
 
->>>>>>> 383b42c27b316b9884224b366892c5875ef38f48
-});
+
+
+
+
 
 Route::group(['middleware'=> ['web','checkStudent']], function () {
     Route::get('/dashboard',[AuthController::class,'loadDashboard']);

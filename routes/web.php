@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,8 +34,9 @@ Route::get('/logout',[AuthController::class,'logout']);
 Route::get('/forget-password',[AuthController::class,'resetPasswordLoad']);
 Route::post('/forget-password',[AuthController::class,'resetPassword'])->name('resetPassword');
 
-Route::get('/rest-password',[AuthController::class,'forgetPasswordLoad']);
+Route::get('/reset-password',[AuthController::class,'forgetPasswordLoad']);
 Route::post('/reset-password',[AuthController::class,'forgetPassword'])->name('forgetPassword');
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -45,13 +47,27 @@ Route::middleware([
     })->name('dashboard');
 });
 
-Route::get('/register',[AuthController:: class,'loadRegister']);
-Route::post('/register',[AuthController::class,'studentRegister'])->name('studentRegister');
-
 
 Route::group(['middleware'=> ['web','checkAdmin']], function () {
     Route::get('/admin/dashboard',[AuthController::class,'adminDashboard']);
+    
+    // subjects route
+    Route::post('/add-subject',[AdminController::class,'addSubject'])->name('addSubject');
+    Route::post('/edit-subject',[AdminController::class,'editSubject'])->name('editSubject');
+    Route::post('/delete-subject',[AdminController::class,'deleteSubject'])->name('deleteSubject');
 });
+
+
+
+
+    //exam route
+    Route::get('/admin/exam',[adminController::class,'examDashboard']);
+    Route::post('/add-exam',[adminController::class,'addExam'])->name('addExam');
+
+
+
+
+
 
 Route::group(['middleware'=> ['web','checkStudent']], function () {
     Route::get('/dashboard',[AuthController::class,'loadDashboard']);

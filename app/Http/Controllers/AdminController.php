@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Subject;
-
+use App\Models\User;
 use App\ModeIs\Exam;
 
 class AdminController extends Controller
@@ -62,7 +62,15 @@ public function deleteSubject(Request $request)
     {
         return view('admin.exam-dashboard');
     }
+// here will be the exams part
+    
 
+    //student dashboard
+    public function studentDasboard()
+    {
+        $students = User::where('is_admin',0)->get();
+        return view('admin.studentsDashboard',compact('students'));
+    }
 
 }
 

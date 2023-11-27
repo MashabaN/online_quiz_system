@@ -59,18 +59,25 @@ Route::group(['middleware'=> ['web','checkAdmin']], function () {
     //exam route
     Route::get('/admin/exam',[adminController::class,'examDashboard']);
     Route::post('/add-exam',[adminController::class,'addExam'])->name('addExam');
+    Route::get('/get-exam-detail/{id},[AdminController::class,'getExamDetail'])->name('getExamDetail');
+    Route::post('/update-exam',[adminController::class,'updateExam'])->name('updateExam');
     //finish exam route
 
     //Q&A Routes
 
     //Students Routing
     Route::get('/admin/students',[AdminController::class,'studentsDashboard']);
-    Route::post('/add-student',[AdminController::class,'addStudent'])->name('addStudent');
-    Route::post('/edit-student',[AdminController::class,'editStudent'])->name('editStudent');
-    Route::post('/delete-student',[AdminController::class,'deleteStudent'])->name('deleteStudent');
 
 
 });
+
+
+
+
+
+
+
+
 
 Route::group(['middleware'=> ['web','checkStudent']], function () {
     Route::get('/dashboard',[AuthController::class,'loadDashboard']);

@@ -19,5 +19,6 @@ class Exam extends Model
     {
         return $this->hasMany(Subject::class,'ID','Subject_ID')
         
-    }
+    ;
+}
 }

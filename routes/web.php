@@ -59,7 +59,7 @@ Route::group(['middleware'=> ['web','checkAdmin']], function () {
     //exam route
     Route::get('/admin/exam',[adminController::class,'examDashboard']);
     Route::post('/add-exam',[adminController::class,'addExam'])->name('addExam');
-    Route::get('/get-exam-detail/{id},[AdminController::class,'getExamDetail'])->name('getExamDetail');
+    Route::get('/get-exam-detail/{id}',[AdminController::class,'getExamDetail'])->name('getExamDetail');
     Route::post('/update-exam',[adminController::class,'updateExam'])->name('updateExam');
     //finish exam route
 

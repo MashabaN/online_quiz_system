@@ -61,8 +61,8 @@ public function deleteSubject(Request $request)
     //exam dashboard load
     public function examDashboard()
     {
-        $subjects = Subject::all()
-        $exams = Exam::with('subjects')->get();
+        $subjects = Subject::all();
+        $exams = Exam::with('Subjects')->get();
     
     
         return view('admin.exam-dashboard',['subjects'=>$subjects,'exams'=>$exams]);
@@ -114,7 +114,7 @@ public function deleteSubject(Request $request)
             $exam->Date = $request->Date;
             $exam->Time = $request->Time;
             $exam->save();
-            return response()->json(['success'=>true.'msg'=> 'Exam updated successfull!']);
+            return response()->json(['success'=>true,'msg'=> 'Exam updated successfull!']);
 
             
             

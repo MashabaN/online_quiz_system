@@ -191,6 +191,7 @@
   
             <div class="modal-body">
                 <input type="text" name="exam_id" id="addExamId"  >
+                <input type="search" name="search" placeholder="searchHere"  >
                 <br> <br>
                 <select name="questions" multiple multiselect-search="true" multiselect-select-all ="true" onchange="console.log(this.selectedOptions)">  
                     

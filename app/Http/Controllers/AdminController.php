@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Subject;
 use App\Models\User;
 use App\ModeIs\Exam;
+use App\ModeIs\Question;
+use App\ModeIs\Answer;
 
 class AdminController extends Controller
 {
@@ -77,6 +79,7 @@ public function deleteSubject(Request $request)
                 'Subject_ID' => $request->Subject_ID,
                 'Date'=> $request->Exam_name,
                 'Time' => $request ->Time,
+                'Attempted' => $request ->Attempted
             ]);
                 
             
@@ -114,7 +117,7 @@ public function deleteSubject(Request $request)
             $exam->Date = $request->Date;
             $exam->Time = $request->Time;
             $exam->save();
-            return response()->json(['success'=>true,'msg'=> 'Exam updated successfull!']);
+            return response()->json(['success'=>true,'msg'=> 'Exam updated successfully!']);
 
             
             
@@ -125,6 +128,66 @@ public function deleteSubject(Request $request)
              
          };
 
+    }
+
+    //delete exam
+    public function deleteExam(Request $request)
+    {
+        try{
+
+            Exam::where('id',$request->Exam_ID)->delete();
+            return response()->json(['success'=>true,'msg'=> 'Exam Deleted successfully!']);
+
+        }catch(\Exception $e){
+            return response()->json(['success'=>false,'msg'=>$e->getMessage()]);
+            
+        };
+
+    }
+
+    public function qnaDashboard()
+    {
+        $questions = Question::with('answers')->get();
+        return view ('admin.qnaDashboard',compact('questions'));
+    }
+
+    // add q&a
+    public function addQna(Request $request)
+    {
+        try{
+
+            $question_Id = Question::inserGetId([
+                'Question' => $request-
+            ]);
+
+           foreach($request->Answer as $answer){
+
+               $is_correct = 0;
+               if($request->is_correct == $answer){
+                   $is_correct = 1;
+
+
+
+               }
+               Answer::insert([
+                   'Question_ID' =>$question_Id
+                   'Answer' =>$answer,
+                   'Is_correct => $is_correct
+
+                
+
+               ]); 
+
+           }
+
+            return response()->json(['success'=>true,'msg'=> 'Exam Deleted successfully!']);
+
+        }catch(\Exception $e){
+            return response()->json(['success'=>false,'msg'=>$e->getMessage()]);
+            
+        };
+        
+        return response()->json($request->all());
     }
 }
 

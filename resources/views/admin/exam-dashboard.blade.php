@@ -15,6 +15,7 @@
                 <th>Subject</th>
                 <th>Date</th>
                 <th>Time</th>
+                <th>Attempted</th>
                 <th>Edit</th>
                 <th>Delete</th>
                 
@@ -30,6 +31,8 @@
                         <td>{{ $exams->Subject_ID }}</td>
                         <td>{{ $exams->Date }}</td>
                         <td>{{ $exams->Time	}} Hrs</td>
+                        <td>{{ $exams->Attempted }} Time</td>
+
                         <td>
                             <button class="btn btn-info editButton" data-id="{{ $exam->ID }}" data-toggle="modal" data-target="#editExamModal">Edit</button>
                         </td>
@@ -81,9 +84,11 @@
                 @endif
               </select>
               <br><br>
-              <input type="date" name="date"  class="w-100" required min="@php echo date('Y-m-d'); @endphp">
+              <input type="date" name="Date"  class="w-100" required min="@php echo date('Y-m-d'); @endphp">
               <br><br>
-              <input type="time" name="time"  class="w-100" required>
+              <input type="time" name="Time"  class="w-100" required>
+              <br><br>
+              <input type="number" min="1" name="Attempted" placeholder="Enter Exam Attempt Time" class="w-100" required>
 
             </div>
 
@@ -109,7 +114,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form id="DeleteExam">
+      <form id="deleteExam">
       @csrf
 
           <div class="modal-body">
@@ -155,9 +160,11 @@
                 @endif
               </select>
               <br><br>
-              <input type="date" name="date"  class="w-100" required min="@php echo date('Y-m-d'); @endphp">
+              <input type="date" name="Date" id= "Date"  class="w-100" required min="@php echo date('Y-m-d'); @endphp">
               <br><br>
-              <input type="time" name="time"  class="w-100" required>
+              <input type="time" name="Time" id="Time"  class="w-100" required>
+              <br><br>
+              <input type="number" min="1" id="Attempted" name="Attempted" placeholder="Enter Exam Attempt Time" class="w-100" required>
 
             </div>
 
@@ -174,13 +181,13 @@
   
 <script>
     $(document).ready(function(){
-        $("#addExam").submit(function(e)){
+        $("#editExam").submit(function(e){
             e.preventDefault();
 
             var formData = $(this).serialize();
 
             $.ajax({
-                url:"{{ route('addExam') }}",
+                url:"{{ route('updateExam') }}",
                 type:"POST",
                 data:formData,
                 success:function(data){
@@ -214,6 +221,8 @@
                         $("#Subject_ID").val(exam.[0].Subject_ID);
                         $("#Date").val(exam.[0].Date);
                         $("#Time").val(exam.[0].Time);
+                        $("#Attempted").val(exam.[0].Attempted);
+                        
 
 
 
@@ -225,9 +234,42 @@
                 }
             });
         });
-    });
+    
     //delete exam
-    $("deletebutton")
+    $(".deletebutton").click(function(){
+        var id = $(this).attr('data-id');
+        $("#deleteExamID").val(id);
+
+    });
+
+    $("#deleteExam").submit(function(e){
+            e.preventDefault();
+
+            var formData = $(this).serialize();
+
+           
+            $.ajax({
+                url:"{{ route('deleteExam') }}",
+                type:"POST",
+                data:formData,
+                success:function(data){
+                    if(data.success == true){
+                        location.reload();
+                    }
+                    else{
+                        alert(data.msg);
+                    }
+                    
+                }
+            });
+
+
+        });
+            
+</script>
+
+
+
 
 @endsection
 
